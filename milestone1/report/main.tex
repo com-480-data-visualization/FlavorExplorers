@@ -1,0 +1,140 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{csquotes}
+\usepackage{pgfplots}
+
+%set pgfplots compatibilty
+\pgfplotsset{compat=1.18}
+
+\title{FlavorExplorers - Milestone 1}
+\author{Imane Benkamoun, Quirin Bitter, Sofia Taouhid}
+\date{March 2026}
+
+\newcommand{\kagglerecipefootnote}[0]{\footnote{Despite the dataset’s title claiming it contains 64,000 recipes, it actually includes only 62,126.}{} }
+
+\newcommand{\fuzzymatchingfootnote}[0]{\footnote{We used Python's built-in \texttt{difflib} module with an 80\% similarity score.}{} }
+\newcommand{\ukexpenditureyear}[0]{\footnote{Please note that the data for the years 2001–2005 and 2016–2024 are provided with overlapping periods (e.g., 2001–2002). A note in the dataset explains that this change occurred because different figures were used starting from 2001 onward. However, it is unclear why the data is provided annually for the years 2006–2015.}{} }
+
+\newcommand{\thepuddingfootnote}[0]{\footnote{\url{https://pudding.cool/}}{} }
+\newcommand{\fivethiryeightfootnote}[0]{\footnote{\url{https://fivethirtyeight.com/tag/data-visualization/\#content}}{} }
+
+\begin{document}
+
+\maketitle
+
+\section{Dataset}
+Our project integrates primary and secondary datasets to examine how recipe nutritional profiles relate to emotional appeal and purchasing patterns:
+
+\begin{itemize}
+    \item \textbf{Kaggle Recipes:} Contains $\sim$62,000 diverse everyday dishes~\cite{singh25}. We enriched this data using an LLM to assign a binary \enquote{healthiness} label based on ingredient composition.
+    \item \textbf{Flavor Network:} A bipartite dataset containing 1,530 food ingredients linked to 1,106 flavor compounds via 36,781 edges~\cite{cheng16}. This allows us to calculate the \enquote{flavor complexity} of any dish.
+    \item \textbf{FooDB:} We extract macro- and micronutrient profiles, isolating specific neuro-active compounds like L-Tryptophan and Magnesium~\cite{foodb26}.
+    \item \textbf{Secondary Datasets:} We engineered a custom \texttt{mood\_mapping.csv} to translate FooDB's chemical data into categorical mood scores. We also use UK household expenditures, tracking weekly per-person food spending from 1974 to 2024 across 328 categories~\cite{uk-expenditure-24, uk-population-25}.
+\end{itemize}
+
+\paragraph{Preprocessing}
+We harmonized these sources by bridging the Flavor Network and FooDB. Aligning row indices, standardizing naming conventions, and applying a fuzzy matching algorithm we successfully linked 315 core ingredients. The Kaggle dataset requires parsing raw ingredient strings, while the structured UK expenditure data mainly requires filtering to prevent double-counting via root categories.
+
+\paragraph{Strengths \& Limitations}
+The primary strengths of our data are its massive scale and multimodality. However, ingredient processing remains inherently noisy, and the biological links between meals, emotions, and healthiness are partially subjective. Thus, our project serves as a data-driven visualization of food's position between pleasure and health, rather than a strict diagnostic tool.
+
+\newpage
+
+\section{Problematic}
+\paragraph{The Comfort Food Paradox: Does pleasure come at the expense of health?}
+This project investigates a deeply familiar intuition about food: does the pleasure of eating inherently come at the expense of our physical health? In everyday life, people often oppose tasty, comforting food and healthy food, as if nutritional value must necessarily cost us culinary enjoyment. Rich meals are commonly associated with immediate satisfaction, while healthier dishes are frequently perceived as emotionally unrewarding. We want to determine whether the happiness we derive from comfort food is a true biological reality driven by mood-boosting nutrients, or merely a sensorial illusion triggered by flavor additives and sugar.
+
+\paragraph{Hypothesis \& Methodology}
+We hypothesize that less healthy recipes emphasize pleasure-related signals far more than healthier ones. To visualize this at scale, we operationalize \enquote{pleasure} as a mathematical combination of a dish's flavor complexity and its density of emotion-associated chemical compounds. In parallel, we estimate \enquote{healthiness} using ingredient-based LLM labels. This methodology yields two comparable dimensions across thousands of dishes: a physical health axis and a neurological pleasure axis.
+
+\paragraph{Objectives \& Target Audience}
+Our main objective is to visualize whether these two axes are strictly opposed in practice. Are unhealthy dishes consistently associated with ingredients linked to stronger pleasure effects, and do healthy recipes cluster in lower-pleasure regions? Secondarily, we will map these findings onto UK expenditure data to examine which food-related emotions drive consumer spending. Our motivation is to help users identify the culinary \enquote{Goldilocks Zone} dishes scoring high on flavor complexity and biological mood stabilization without failing standard health metrics. Our target audience includes dietitians, menu planners, and health-conscious consumers.
+
+\newpage
+
+\section{Exploratory Data Analysis}
+
+\subsection{Kaggle Recipes Dataset Exploration}
+Our exploratory analysis validates our preprocessing and reveals structural insights. Plotting the top food categories demonstrates a clear divide regarding healthiness: main dishes are relatively healthy, whereas categories like cakes and cookies skew heavily unhealthy (figure \ref{fig:health-among-categ}). Ingredient frequency strongly reinforces this (figure \ref{fig:ing-frequency}). Healthy recipes overwhelmingly feature ingredients like garlic and olive oil, while unhealthy recipes are dominated by baking staples like white sugar and butter. Isolating ingredients disproportionately associated with one specific class confirms our healthiness classification matches established nutritional intuition (figure \ref{fig:ing-ratio}).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{assets/top20_common_ingredients.png}
+    \caption{The 20 most common ingredients over all 62 126 recipes.}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{assets/healthy_distrib_among_categ.png}
+    \caption{Health Label Distribution Across Top Categories of the Kaggle Recipes Dataset.}
+    \label{fig:health-among-categ}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\linewidth]{assets/healthy_ingredients_frequency.png}
+    \hfill
+    \includegraphics[width=0.48\linewidth]{assets/unhealthy_ingredients_frequency.png}
+    \caption{Most frequent ingredients in healthy recipes (left, 18\,600 recipes) vs.\ unhealthy recipes (right, 43\,526 recipes).}
+    \label{fig:ing-frequency}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\linewidth]{assets/healthy_ingredients_ratio.png}
+    \hfill
+    \includegraphics[width=0.48\linewidth]{assets/unhealthy_ingredients_ratio.png}
+    \caption{Ingredient association ratio with healthy recipes (left) vs.\ unhealthy recipes (right).}
+    \label{fig:ing-ratio}
+\end{figure}
+
+\subsection{Flavor Network \& FooDB Exploration}
+First, we calculated the \enquote{Flavor Complexity} of individual ingredients. The resulting distribution plot reveals a massive right-skewed, long-tail distribution (figure \ref{fig:flavor-complex}). Most ingredients share very few chemical compounds, but a select few act as massive hubs. Interestingly, the most complex ingredients are highly skewed toward beverages (Black Tea: 239 compounds, Coffee: 234) and meats (Grilled Beef: 217). To test the technical feasibility of our pipeline, we ran an advanced string-matching script. Standardizing strings and applying a \texttt{difflib} fuzzy matching algorithm\fuzzymatchingfootnote successfully bridged 315 core ingredients between the two databases, yielding a 20.57\% match rate. Grouping these matched ingredients by their FooDB categories reveals a balanced baseline dominated by fruits, herbs, and vegetables (figure \ref{fig:fooddb-flavor-bridge}).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{assets/ingredient-flavor-complexity.jpeg}
+    \caption{Flavor Complexity Distribution: How many compounds does an ingredient have?}
+    \label{fig:flavor-complex}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\linewidth]{assets/bridged-ingredients.jpeg}
+    \caption{Ingredients successfully matched to flavor compounds, categorized by their FoodDB group.}
+    \label{fig:fooddb-flavor-bridge}
+\end{figure}
+
+\subsection{UK Expenditure Dataset}
+This dataset provides 14,743 observations of weekly per-person food spending from 1974 to 2024\ukexpenditureyear{}. With 328 tracked categories, the matrix coverage sits at an excellent 93\%, with a low Relative Standard Error averaging 5--10\%, providing a reliable temporal foundation for mapping spending habits to our nutritional findings.
+
+\begin{figure}[htbp]
+    \resizebox{\linewidth}{!}{\input{assets/plot.pgf}}
+    \caption{Bar plot showing the UK expenditure dataset: for each year, counts of categories with data points, categories with zero values, and categories with missing values.}
+\end{figure}
+
+\newpage
+
+\section{Related Work}
+The core of our sensorial data relies on the 2011 \textit{Nature Scientific Reports} paper by Ahn et al., \enquote{Flavor network and the principles of food pairing}~\cite{ahn2011flavor}. Ahn's work famously visualized how different global cuisines either embrace or reject flavor-compound overlap. \\
+Other work covered gender differences in dietary habits for salty and umami tastes~\cite{CATTANEO2025100970} or oral sensation from the consumption of alcoholic beverages~\cite{foods9081131}. \\
+Furthermore, is it well known that consumer behavior is influenced and liklely linked to emotional events~\cite{CAI2026107357, khan2025stress}. Further is it known, that the type of expenditure influences people's overall happiness~\cite{stenlund2024spending}. However, no work known to us, links different food expenditures to happiness. We hope that, pairing our insights from \enquote{What tastes good and keeps us healthy} with our expenditure dataset, may allow statements regarding taste and health related spendings.
+
+\paragraph{Originality}
+Previous approaches focused almost exclusively on the taste aspect of food networks or purely on the nutritional aspect. Our approach is highly original because it links these isolated domains in our \textit{engineered datasets}. By injecting a biological/health layer into the flavor network, we shift the narrative from \enquote{What tastes good together?} to \enquote{What tastes good, keeps us healthy, and biochemically makes us feel good?}. \\
+Pairing our findings with the expenditure data set may secondarily allow us to figure out: for which feeling do people spend their money?
+
+\paragraph{Inspiration}
+Visually, we draw inspiration from interactive data journalism pieces found on \textit{The Pudding}\thepuddingfootnote and \textit{FiveThirtyEight}\fivethiryeightfootnote.
+
+\newpage
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}

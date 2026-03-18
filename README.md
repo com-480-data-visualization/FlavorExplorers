@@ -10,6 +10,9 @@
 
 ## Milestone 1 (20th March, 5pm)
 
+> [!NOTE]
+> All code (`milestone1/code/`), data (`milestone1/datasets/`) and our report (`milestone1/report/`) for this milestone is at the folder `milestone1`. The report in PDF form is at `milestone1/report/main.pdf`.
+
 **10% of the final grade**
 
 This is a preliminary milestone to let you set up goals for your final project and assess the feasibility of your ideas.
@@ -56,4 +59,3 @@ Please, fill the following sections about your project.
 
 - < 24h: 80% of the grade for the milestone
 - < 48h: 70% of the grade for the milestone
-
