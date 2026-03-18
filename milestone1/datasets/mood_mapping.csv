@@ -1,0 +1,41 @@
+compound_name,biological_effect,mood_category,mood_weight
+Tryptophan,Serotonin Precursor,Calm / Happy,1
+Magnesium,Cortisol Regulator,Stress Relief,1
+Tyrosine,Dopamine Precursor,Motivated / Alert,1
+Phenylalanine,Dopamine Precursor,Motivated / Alert,1
+Theanine,GABA Booster,Relaxed / Focused,1
+Docosahexaenoic acid,Neuroinflammation Reduction,Mood Stabilization,1
+Eicosapentaenoic acid,Neuroinflammation Reduction,Mood Stabilization,1
+Sucrose,High Glycemic Spike,Sugar Crash / Irritability,-1
+Fructose,High Glycemic Spike,Sugar Crash / Irritability,-1
+Glucose,High Glycemic Spike,Sugar Crash / Irritability,-1
+Caffeine,Adenosine Receptor Blocker,Anxious / Jittery,-0.5
+Pyridoxine,Serotonin Synthesizer,Calm / Happy,0.8
+Ascorbic acid,Neuromodulator,Alert / Energized,0.8
+Gamma-Aminobutyric acid,Inhibitory Neurotransmitter,Stress Relief,1
+Zinc,Stress Response Regulator,Mood Stabilization,0.8
+Choline,Acetylcholine Precursor,Focused / Sharp,0.8
+Capsaicin,Endorphin Release,Euphoric / Energized,1
+Palmitic acid,Neuroinflammation,Sluggish / Foggy,-0.5
+Elaidic acid,Neuroinflammation,Depressed / Lethargic,-1
+Cholecalciferol,Serotonin Synthesis Support,Happy / Uplifted,1
+Ergocalciferol,Dopamine Synthesis Support,Happy / Uplifted,0.8
+Folic acid,Neurotransmitter Regulation,Balanced / Stable,0.8
+Cobalamin,Myelin Sheath Maintenance,Clear-Headed / Focused,1
+Riboflavin,Energy Metabolism,Fatigue Reduction,0.5
+Iron,Oxygen Transport to Brain,Energetic / Alert,0.8
+Calcium,Neurotransmitter Release Trigger,Balanced / Stable,0.5
+Selenium,Antioxidant Defense,Mood Stabilization,0.8
+Copper,Dopamine Beta-Hydroxylase Cofactor,Motivated / Alert,0.5
+Alpha-linolenic acid,Omega-3 Precursor,Mood Stabilization,0.8
+Oleic acid,Myelin Integrity,Clear-Headed / Focused,0.5
+Arachidonic acid,Pro-inflammatory Cascade,Irritable / Sluggish,-0.5
+Lactose,Moderate Glycemic Spike,Sugar Crash / Irritability,-0.5
+Maltose,High Glycemic Spike,Sugar Crash / Irritability,-0.8
+Galactose,Moderate Glycemic Spike,Sugar Crash / Irritability,-0.5
+Lycopene,Neuroprotection,Cognitive Clarity,0.5
+Curcumin,MAO Inhibitor,Mood Elevation / Happy,1
+Quercetin,Oxidative Stress Reduction,Fatigue Reduction,0.5
+Epigallocatechin gallate,Alpha Brain Wave Induction,Calm / Focused,1
+Theobromine,Mild Stimulant / Vasodilator,Euphoric / Energetic,0.8
+Piperine,Nutrient Bioavailability Enhancer,Alert / Energized,0.5
