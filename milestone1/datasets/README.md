@@ -6,3 +6,6 @@ The flavor network dataset can be found at https://github.com/lingcheng99/Flavor
 
 # FooDB dataset
 The FooDB dataset can be found at https://foodb.ca/downloads
+
+# Recipes dataset
+The Recipes dataset can be found at https://www.kaggle.com/datasets/prashantsingh001/recipes-dataset-64k-dishes
