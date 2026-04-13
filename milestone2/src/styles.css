@@ -44,6 +44,13 @@ p {
   font-size: 5em;
 }
 
+.normal-text {
+  font-size: 2em;
+  border: 2px solid black;
+  max-width: 80%;
+  max-height: 80%;
+}
+
 
 .wrapper {
   display: flex;
