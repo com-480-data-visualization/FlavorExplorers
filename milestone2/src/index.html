@@ -2,7 +2,12 @@
 <html>
 <head>
   <title>Comfort Food Paradox </title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/barplot.css" />
+  <link rel="stylesheet" href="styles/recipe-tiles.css" />
+  <link rel="stylesheet" href="styles/ingredient-network.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="diagrams/heatmap.js"></script>
 </head>
 <body>
 
@@ -67,7 +72,9 @@
 
           <div class="right fifty-right" >
             <div class="center">
-              <img src="assets/plot.svg" id="plot">
+              <svg id="recipe-tiles" width="600" height="500"></svg>
+              <script src="diagrams/recipe-tiles.js"></script>
+              <!-- <img src="assets/plot.svg" id="plot"> -->
             </div>
           </div>
         </div>
@@ -89,7 +96,8 @@
 
           <div class="right fifty-right" >
             <div class="center">
-              <img src="assets/plot.svg" id="plot">
+              <div id="ingredient-network"></div>
+              <script src="diagrams/ingredient-network.js"></script>
             </div>
           </div>
         </div>
@@ -111,7 +119,9 @@
 
           <div class="right fifty-right" >
             <div class="center">
-              <img src="assets/plot.svg" id="plot">
+              <svg id="heatmap-svg-empty" width="800" height="600"></svg>
+              <script>draw_heatmap("heatmap-svg-empty", false)</script>
+              <!-- <img src="assets/plot.svg" id="plot"> -->
             </div>
           </div>
         </div>
@@ -134,7 +144,9 @@
 
           <div class="right fifty-right" >
             <div class="center">
-              <img src="assets/plot.svg" id="plot">
+              <svg id="heatmap-svg" width="800" height="600"></svg>
+              <script>draw_heatmap("heatmap-svg")</script>
+              <!-- <img src="assets/plot.svg" id="plot"> -->
             </div>
           </div>
         </div>
@@ -179,7 +191,9 @@
 
           <div class="right fifty-right" >
             <div class="center">
-              <img src="assets/plot.svg" id="plot">
+              <svg id="recipe-compound" width="900" height="600"></svg>
+              <script src="diagrams/bipartite.js"></script>
+              <!-- <img src="assets/plot.svg" id="plot"> -->
             </div>
           </div>
         </div>
@@ -199,15 +213,20 @@
                   Milk
                   </option>
                 </select>
+                <button type="button">Add ingredient</button>
                 <br />
-                <img src="assets/plot.svg">
+                <!-- <img src="assets/plot.svg"> -->
+                <svg id="bowl-svg" width="700" height="400"></svg>
+                <script src="diagrams/bowl.js"></script>
               </div>
             </div>
           </div>
 
           <div class="right fifty-right" >
             <div class="center">
-              <img src="assets/plot.svg" id="plot">
+              <!-- <img src="assets/plot.svg" id="plot"> -->
+              <svg id="bar-bowl" width="700" height="400"></svg>
+              <script src="diagrams/bar-bowl.js"></script>
             </div>
           </div>
         </div>
@@ -241,7 +260,8 @@
 
           <div class="right fifty-right" >
             <div class="center">
-              <img src="assets/plot.svg" id="plot">
+              <svg id="barplot-spending" width="600" height="400"></svg>
+              <script src="diagrams/barplot.js"></script>
             </div>
           </div>
         </div>

@@ -1,0 +1,23 @@
+#recipe-tiles {
+    display: block;
+    margin: auto;
+}
+.card {
+    fill: #ffffff;
+    stroke: #777;
+    stroke-width: 3px;
+    rx: 20;
+    ry: 20;
+}
+.title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.label {
+    font-size: 14px;
+    fill: #555;
+}
+.tag {
+    font-size: 14px;
+    font-weight: bold;
+}
