@@ -1,0 +1,292 @@
+
+:root {
+    --comfort: #E87461;
+    --healthy: #6BAA75;
+    --neutral: #1A1A1A;
+    --stats_col: #F2CC8F;
+    --muted: #B0B0B0;
+    --bg: #F8F1E7;
+    --card: #FFFFFF;
+    --body_txt_col: #1A1A1A;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: "Inter", sans-serif;
+    background: var(--bg);
+    color: var(--body_txt_col);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+h1, h2, h3 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+footer {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
+/* Top bar */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 2rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    background: var(--neutral);
+    backdrop-filter: blur(8px);
+}
+.topbar a { color: var(--comfort); text-decoration: none; margin-left: 0.3rem; }
+
+/* Hero */
+.hero {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.5rem 4rem;
+}
+.hero h1 {
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    max-width: 16ch;
+    margin-bottom: 1.5rem;
+}
+.hero h1 em {
+    color: var(--comfort);
+    font-style: italic;
+    font-family: "Playfair Display", serif;
+}
+.hero p {
+    font-size: 1rem;
+    max-width: 48ch;
+    color: #555;
+    margin-bottom: 2rem;
+}
+.scroll-arrow {
+    font-size: 1.5rem;
+    color: var(--body_txt_col);
+    animation: bounce 2s infinite;
+}
+@keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+
+/* Stats band */
+.stats {
+    background: var(--neutral);
+    color: white;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 2rem;
+    text-align: center;
+    gap: 1rem;
+}
+.stat-num {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--stats_col);
+    font-weight: 700;
+}
+.stat-label {
+    font-size: 0.85rem;
+    color: #ccc;
+    margin-top: 0.3rem;
+}
+
+/* Chapter pages */
+.chapter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    padding: 5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: center;
+}
+.chapter.flip { direction: rtl; }
+.chapter.flip > * { direction: ltr; }
+
+.chapter h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    margin-bottom: 1rem;
+    line-height: 1.15;
+}
+.chapter p {
+    font-size: 0.98rem;
+    color: #444;
+    margin-bottom: 0.8rem;
+}
+.chapter .caption {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+.viz-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 1.2rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.viz-card svg { width: 100%; height: 100%; }
+
+/* Photo band */
+.photo-band {
+    height: 260px;
+    background-size: cover;
+    background-position: center;
+}
+.photo-salad { background-image: url("https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1600&q=60"); }
+.photo-fruit    { background-image: url("https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=1600&q=60"); }
+.photo-fried    { background-image: url("https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=1600&q=60"); }
+
+/* Scatter tooltip */
+.tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--neutral);
+    color: white;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 50;
+    white-space: nowrap;
+}
+
+/* Recipe picker */
+#recipe-picker { margin-top: 1.2rem; }
+.picker-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+.picker-search {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    margin-bottom: 0.8rem;
+    background: white;
+}
+.picker-search:focus { outline: none; border-color: var(--comfort); }
+.picker-results {
+    max-height: 160px;
+    overflow-y: auto;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.picker-option {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f4f4f4;
+}
+  .picker-option:hover { background: #faf4eb; }
+  .picker-option:last-child { border-bottom: none; }
+  .picker-selected {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+}
+.picker-chip {
+    padding: 0.35rem 0.7rem;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+}
+
+#ingredient-network {
+    width: 100%;
+    height: 500px; 
+    background: #ffffff;
+    border-radius: 14px;
+    margin-top: 2rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+.link {
+    stroke: #e0e0e0;
+    stroke-opacity: 0.6;
+    stroke-width: 1.5px;
+}
+
+/* Ingredient bar chart card */
+.viz-card--bar {
+  aspect-ratio: unset;
+  min-height: 420px;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+.bar-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.7rem;
+  align-items: center;
+}
+
+.bar-filter-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 0.2rem;
+}
+
+.bar-btn {
+  padding: 0.22rem 0.6rem;
+  border-radius: 20px;
+  border: 1.5px solid #ddd;
+  background: white;
+  font-size: 0.72rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.bar-btn:hover { background: #faf4eb; }
+.bar-btn.active {
+  background: var(--neutral);
+  color: white;
+  border-color: var(--neutral);
+}
+
+#bar-svg svg { width: 100%; height: 100%; }
+
+#ingredient-network text {
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    fill: #666;
+    pointer-events: none; /* Keeps text from blocking drag events */
+}

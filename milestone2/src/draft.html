@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Comfort Food Paradox</title>
+    
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="topbar">Flavor <a href="#">Explorers</a></div>
+
+<section class="hero">
+  <h1>Does <em>pleasure</em> come at the cost of health?</h1>
+  <p>We mapped 25,000 recipes across two hidden dimensions: biological pleasure vs. healthiness.</p>
+  <div class="scroll-arrow">↓</div>
+</section>
+
+<section class="stats">
+  <div><div class="stat-num">25k+</div><div class="stat-label">Recipes analyzed</div></div>
+  <div><div class="stat-num">1530</div><div class="stat-label">Ingredients</div></div>
+  <div><div class="stat-num">40</div><div class="stat-label">Mood Compounds</div></div>
+</section>
+
+<section class="chapter">
+  <div>
+    <h2>What if health and pleasure confront?</h2>
+    <p>Every ingredient sits somewhere on two axes: how healthy it is, and how strongly it carries mood-active compounds.</p>
+    <p>Hover a point to see which ingredient it is. The cloud isn't two camps. It's a continuum, and the interesting action happens in the upper-right, where healthy <em>and</em> mood-rich meet.</p>
+    <p class="caption">Hover to explore!</p>
+  </div>
+  <div class="viz-card" id="viz-scatter">
+    <span style="color:var(--muted); font-size:0.9rem;">Loading…</span>
+  </div>
+</section>
+
+<div class="photo-band photo-salad"></div>
+
+<section class="chapter">
+  <div>
+    <h2>Which cuisines play it safe and which don't?</h2>
+    <p>Each bubble is a food category. Its position maps the average health score vs. average mood score of every recipe in that group. Bubble size shows how many recipes it contains.</p>
+    <p>Comfort Food and Cocktails cluster upper-left: high mood, low health while Healthy Recipes anchor the opposite corner. Most cuisines sit uncomfortably in between.</p>
+    <p class="caption">Hover a bubble to see the full breakdown.</p>
+  </div>
+  <div class="viz-card" id="viz-bubble">
+    <span style="color:var(--muted); font-size:0.9rem;">Loading…</span>
+  </div>
+</section>
+
+<div class="photo-band photo-fried"></div>
+
+<section class="chapter flip">
+  <div>
+    <h2>The Ingredients Behind the Mood</h2>
+    <p>Not all mood-active ingredients are equal. Some energize, some sharpen focus, others cloud it. Filter by mood type to see which ingredients dominate each effect.</p>
+    <p>Notice caffeine and theobromine leading the "Alert" cluster while fatty acids drift toward the sluggish end.</p>
+    <p class="caption">Filter by mood · Hover bars for details</p>
+  </div>
+  <div id="ingredient-bar-wrap" class="viz-card viz-card--bar">
+    <div id="bar-controls" class="bar-controls"></div>
+    <div id="bar-svg"></div>
+  </div>
+</section>
+
+<div class="photo-band photo-fruit"></div>
+
+<section class="chapter">
+  <div>
+    <h2>From Ingredient to Feeling</h2>
+    <p>Follow the flow: each ingredient category connects to the moods it most commonly triggers. Ribbon thickness reflects how often those ingredients appear across all recipes.</p>
+    <p>Vegetables and fruits flow toward alertness and focus. Meat and dairy split between clarity and sluggishness. Spices are surprisingly stimulating.</p>
+    <p class="caption">Hover any ribbon to see the flow volume.</p>
+  </div>
+  <div class="viz-card" id="viz-sankey">
+    <span style="color:var(--muted); font-size:0.9rem;">Loading…</span>
+  </div>
+</section>
+
+<div class="photo-band photo-salad"></div>
+
+<section class="chapter flip">
+  <div>
+    <h2>Compare Recipes, Compound by Compound</h2>
+    <p>Pick up to three recipes and see how their chemistry stacks up on the most common mood-active compounds.</p>
+    <p>Different shapes, different stories. A pasta dish and a salad bowl can share surprising chemistry, or none at all.</p>
+    <div id="recipe-picker"></div>
+  </div>
+  <div class="viz-card" id="viz-compare-spider">
+    <span style="color:var(--muted); font-size:0.9rem;">Loading…</span>
+  </div>
+</section>
+
+<div class="photo-band photo-fried"></div>
+
+<section class="chapter">
+  <div>
+    <h2>The Long Game</h2>
+    <p>Over five decades, the trajectories diverge. Ready-meal spending climbs steadily while fresh produce slowly loses ground. The shift isn't dramatic year-to-year, it compounds.</p>
+    <p>Recession bands mark the years when comfort spending spiked hardest. Hard times, comforting food.</p>
+    <p class="caption">Multi-line, 1974–2024. Grey bands = recession years.</p>
+  </div>
+  <div class="viz-card" id="viz-lines"></div>
+</section>
+
+<div class="photo-band photo-fruit"></div>
+
+<section class="chapter flip">
+  <div>
+    <h2>Ingredient Connections</h2>
+    <p>This network shows how ingredients share molecular compounds...</p>
+    <p class="caption">Nodes = Ingredients. Edges = Shared compounds.</p>
+  </div>
+
+  <div id="ingredient-network"></div>
+</section>
+
+<footer>The Comfort Food Paradox · Flavor Explorers · EPFL 2026</footer>
+
+  <script src="js/scatter.js"></script>
+  <script src="js/spider.js"></script>
+  <script src="js/line-chart.js"></script>
+  <script src="js/ingredient-network.js"></script>
+  <script src="js/bubble.js"></script>
+  <script src="js/bar-ingredients.js"></script>
+  <script src="js/sankey.js"></script>
+  <script src="js/load.js"></script>
+
+</body>
+</html>
