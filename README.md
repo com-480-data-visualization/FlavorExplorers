@@ -49,6 +49,9 @@ Please, fill the following sections about your project.
 
 **10% of the final grade**
 
+> [!NOTE]
+> The website skeleton code (`milestone2/src`), the Figma sketch code (`milestone2/dataviz_project`) and our report (`milestone2/report/`) for this milestone is at the folder `milestone2`. The report in PDF form is at `milestone2/report/main.pdf`.
+
 
 ## Milestone 3 (29th May, 5pm)
 
