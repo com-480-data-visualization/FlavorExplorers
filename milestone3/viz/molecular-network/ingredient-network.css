@@ -1,8 +1,11 @@
-.link {
+/* .link {
   stroke: #555;
   stroke-opacity: 0.6;
-}
+} */
 
+.font {
+  font-size: 5px;
+}
 .node text {
   font-size: 10px;
   fill: white;
