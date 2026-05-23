@@ -4,6 +4,7 @@
 const color_normal = "black";
 const color_intersect = "blue";
 const color_highlight = "red";
+const opacity_deslected = 0.1;
 
 const healthSorted = ["breast milk", "wild pacific salmon fillet", "arugula spinach", "but avocado", "red swiss chard", "pouch wild caught pink salmon", "handfu spinach", "avocado mexico", "torn kale leaf", "broccoli spear", "halibut filet", "leaf collard green", "thai basil leaf picked stem", "cooled truroot organic sprouted green lentil", "organic flaxseed meal", "tomato lime juice cilantro", "shelled walnut", "dinosaur kale", "alaskan king crab leg", "sashimi grade salmon"]
 const moodSorted = ["breast milk", "wild pacific salmon fillet", "goya virgin olive oil", "unfiltered virgin olive oil", "beef liver", "arugula spinach", "but avocado", "red swiss chard", "pouch wild caught pink salmon", "handfu spinach", "avocado mexico", "torn kale leaf", "broccoli spear", "halibut filet", "leaf collard green", "thai basil leaf picked stem", "cooled truroot organic sprouted green lentil", "organic flaxseed meal", "tomato lime juice cilantro", "shelled walnut"]
@@ -44,39 +45,50 @@ const right = d3.select("#listB")
 
 
 // HOVER INTERACTION
-left.on("mouseover", function(event, d) {
-    // const index = d3.select(this).attr("data-name");
-
-    // highlight left item
-    d3.select(this)
-      .style("color", color_highlight)
-      .style("font-weight", "bold");
-
-    const index = moodSorted.findIndex(e => e == d);
-    if(index != -1) {
-      // update matching right item
-      d3.select(right.nodes()[index])
+function register_hover(list, other_list, this_arr, other_arr, this_color, other_color){
+  list.on("mouseover", function(event, d) {
+      d3.select(this)
         .style("color", color_highlight)
-        // .text(`Hovered with ${d}`);
-    }
-  })
-  .on("mouseout", function(event, d) {
-    // const index = d3.select(this).attr("data-index");
+        .style("font-weight", "bold");
 
-    // reset left
-    d3.select(this)
-      .style("color", healthColor(d))
-      .style("font-weight", "normal");
+      const index_in_list = this_arr.findIndex(e => e == d);
+      d3.selectAll(
+        list
+        .nodes()
+        .filter((d, i) => i != index_in_list)
+      ).style("opacity", opacity_deslected);
 
-    const index = moodSorted.findIndex(e => e == d);
-    if(index != -1) {
-      // update matching right item
-      d3.select(right.nodes()[index])
-        .style("color", moodColor)
-        // .text(`Hovered with ${d}`);
-    }
-    // // reset right
-    // d3.select(right.nodes()[index])
-    //   .style("color", moodColor)
-    //   // .text(rightData[index]);
-  });
+      const index = other_arr.findIndex(e => e == d);
+      if(index != -1) {
+        d3.select(other_list.nodes()[index])
+          .style("color", color_highlight)
+      }
+
+      d3.selectAll(
+        other_list
+        .nodes()
+        .filter((d, i) => i != index)
+      ).style("opacity", opacity_deslected);
+
+    })
+    .on("mouseout", function(event, d) {
+      d3.select(this)
+        .style("color", this_color(d))
+        .style("font-weight", "normal");
+
+      d3.selectAll(list.nodes())
+        .style("opacity", 1.0);
+
+      d3.selectAll(other_list.nodes())
+        .style("opacity", 1.0);
+
+      const index = other_arr.findIndex(e => e == d);
+      if(index != -1) {
+        d3.select(other_list.nodes()[index])
+          .style("color", other_color)
+      }
+    });
+}
+
+register_hover(left, right, healthSorted, moodSorted, healthColor, moodColor);
+register_hover(right, left, moodSorted, healthSorted, moodColor, healthColor);
