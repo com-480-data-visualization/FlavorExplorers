@@ -413,6 +413,12 @@ const disabled_edge = 0.3;
 const shorter_length = d3.min([width, height]) / 2;
 const radius = Math.sqrt(2 * shorter_length * shorter_length) * 0.5;
 
+const stroke_default_opacity = 0.8;
+const stroke_default_color = "#999";
+const stroke_selected_color = "#000000";
+const stroke_deselected_color = "#ddd";
+
+//canvas
 const svg = d3.select("#ingredient-network")
   .append("svg")
   .attr("width", width)
@@ -420,38 +426,29 @@ const svg = d3.select("#ingredient-network")
 
 svg.attr("id", "ingredient-network-svg")
 
-// colorscale = d3.scaleQuantize()
-//   .domain([-1.0, 1.0])
-//   // .range(["red", "green"])
-//   //.range(["#e7d52f","#e9d42f","#ecd22e","#eed02d","#f0ce2c","#f1cb2c","#f3c92b","#f5c72b","#f7c52a","#f8c329","#fac029","#fbbe28","#fdbc28","#feb927","#ffb727","#ffb526","#ffb226","#ffb025","#ffad25","#ffab24","#ffa824","#ffa623","#ffa323","#ffa022","#ff9e22","#ff9b21","#ff9921","#ff9621","#ff9320","#ff9020","#ff8e1f","#ff8b1f","#ff881e","#ff851e","#ff831d","#ff801d","#ff7d1d","#ff7a1c","#ff781c","#ff751b","#ff721b","#ff6f1a","#fd6c1a","#fc6a19","#fa6719","#f96418","#f76118","#f65f18","#f45c17","#f25916","#f05716","#ee5415","#ec5115","#ea4f14","#e84c14","#e64913","#e44713","#e24412","#df4212","#dd3f11","#da3d10","#d83a10","#d5380f","#d3360f","#d0330e","#ce310d","#cb2f0d","#c92d0c","#c62a0b","#c3280b","#c1260a","#be2409","#bb2309","#b92108","#b61f07","#b41d07","#b11b06","#af1a05","#ac1805","#aa1704","#a81604","#a51403","#a31302","#a11202","#9f1101","#9d1000","#9b0f00","#9a0e00","#980e00","#960d00","#950c00","#940c00","#930c00","#920c00","#910b00","#910c00","#900c00","#900c00","#900c00"])
-//   .range(["#440154","#440256","#450457","#450559","#46075a","#46085c","#460a5d","#460b5e","#470d60","#470e61","#471063","#471164","#471365","#481467","#481668","#481769","#48186a","#481a6c","#481b6d","#481c6e","#481d6f","#481f70","#482071","#482173","#482374","#482475","#482576","#482677","#482878","#482979","#472a7a","#472c7a","#472d7b","#472e7c","#472f7d","#46307e","#46327e","#46337f","#463480","#453581","#453781","#453882","#443983","#443a83","#443b84","#433d84","#433e85","#423f85","#424086","#424186","#414287","#414487","#404588","#404688","#3f4788","#3f4889","#3e4989","#3e4a89","#3e4c8a","#3d4d8a","#3d4e8a","#3c4f8a","#3c508b","#3b518b","#3b528b","#3a538b","#3a548c","#39558c","#39568c","#38588c","#38598c","#375a8c","#375b8d","#365c8d","#365d8d","#355e8d","#355f8d","#34608d","#34618d","#33628d","#33638d","#32648e","#32658e","#31668e","#31678e","#31688e","#30698e","#306a8e","#2f6b8e","#2f6c8e","#2e6d8e","#2e6e8e","#2e6f8e","#2d708e","#2d718e","#2c718e","#2c728e","#2c738e","#2b748e","#2b758e","#2a768e","#2a778e","#2a788e","#29798e","#297a8e","#297b8e","#287c8e","#287d8e","#277e8e","#277f8e","#27808e","#26818e","#26828e","#26828e","#25838e","#25848e","#25858e","#24868e","#24878e","#23888e","#23898e","#238a8d","#228b8d","#228c8d","#228d8d","#218e8d","#218f8d","#21908d","#21918c","#20928c","#20928c","#20938c","#1f948c","#1f958b","#1f968b","#1f978b","#1f988b","#1f998a","#1f9a8a","#1e9b8a","#1e9c89","#1e9d89","#1f9e89","#1f9f88","#1fa088","#1fa188","#1fa187","#1fa287","#20a386","#20a486","#21a585","#21a685","#22a785","#22a884","#23a983","#24aa83","#25ab82","#25ac82","#26ad81","#27ad81","#28ae80","#29af7f","#2ab07f","#2cb17e","#2db27d","#2eb37c","#2fb47c","#31b57b","#32b67a","#34b679","#35b779","#37b878","#38b977","#3aba76","#3bbb75","#3dbc74","#3fbc73","#40bd72","#42be71","#44bf70","#46c06f","#48c16e","#4ac16d","#4cc26c","#4ec36b","#50c46a","#52c569","#54c568","#56c667","#58c765","#5ac864","#5cc863","#5ec962","#60ca60","#63cb5f","#65cb5e","#67cc5c","#69cd5b","#6ccd5a","#6ece58","#70cf57","#73d056","#75d054","#77d153","#7ad151","#7cd250","#7fd34e","#81d34d","#84d44b","#86d549","#89d548","#8bd646","#8ed645","#90d743","#93d741","#95d840","#98d83e","#9bd93c","#9dd93b","#a0da39","#a2da37","#a5db36","#a8db34","#aadc32","#addc30","#b0dd2f","#b2dd2d","#b5de2b","#b8de29","#bade28","#bddf26","#c0df25","#c2df23","#c5e021","#c8e020","#cae11f","#cde11d","#d0e11c","#d2e21b","#d5e21a","#d8e219","#dae319","#dde318","#dfe318","#e2e418","#e5e419","#e7e419","#eae51a","#ece51b","#efe51c","#f1e51d","#f4e61e","#f6e620","#f8e621","#fbe723","#fde725"])
-
-colorscale = (i => {
+//color
+const colorscale = (i => {
   return d3.interpolateRdYlGn((i + 1) / 2 + 0.5);
 });
 
+//prepare data
 const nodes = d3.csvParse(nodecsvdata.trim()).sort(
   (a, b) => parseFloat(b.healthy_score) - parseFloat(a.healthy_score)
 );
 const links = d3.csvParse(edgecsvdata.trim());
 
-const width_half = width / 2;
-const width_quarter = width / 4;
 
 const center_x = width / 2;
 const center_y = height / 2;
-
-console.log(nodes);
 
 nodes.forEach( (node, i) => {
   const angle = 2 * Math.PI * (i / nodes.length) - (Math.PI / 2);
   node.fx = center_x + radius * Math.cos(angle);
   node.fy = center_y + radius * Math.sin(angle);
-  // node.fx = width * 0.1 + (Number(node.healthy_score) + 1)/2 * width * 0.8
-  // node.fy = Math.random() * height;
 });
 
 
+//add data
 const simulation = d3.forceSimulation(nodes)
     .force("link", d3.forceLink(links).id(d => d.ingredient).distance(120))
     .force("charge", d3.forceManyBody().strength(-200))
@@ -464,8 +461,8 @@ const link = svg.append("g")
   .append("line")
   .attr("class", "link")
   .attr("stroke-width", d => d.weight * link_scale)
-  .attr("stroke", "#999")
-  .attr("stroke-opacity", 0.5);
+  .attr("stroke", stroke_default_color)
+  .attr("stroke-opacity", stroke_default_opacity);
 
 const node = svg.append("g")
   .selectAll("g")
@@ -506,17 +503,16 @@ const label = node.append("text")
 
     return `rotate(${angle_degrees}) ${rotate}`;
   })
-  // .attr('transform', 'scale(1, -1)')
   .attr("class", "font")
   .text(d => d.ingredient);
 
+
+// hover highlight functionality
 function isConnected(a, b){
   return links.some(d => (d.source == a) && (d.target == b)) || a == b;
 }
 
 function highlight(event, hoveredNode) {
-
-  // Highlight connected nodes
   node.attr("opacity", d =>
     isConnected(hoveredNode, d) ? 1 : disabled_node
   );
@@ -525,12 +521,11 @@ function highlight(event, hoveredNode) {
     isConnected(hoveredNode, d) ? 1 : disabled_node
   );
 
-  // Highlight connected links
   link
     .attr("stroke", d => {
       return d.source.ingredient === hoveredNode.ingredient
-        ? "#000000"
-        : "#ddd";
+        ? stroke_selected_color
+        : stroke_deselected_color;
     }
     )
     .attr("stroke-opacity", d =>
@@ -538,13 +533,6 @@ function highlight(event, hoveredNode) {
         ? 1
         : disabled_edge
     );
-    // .
-    // attr("stroke-width", d =>
-    //   d.source.id === hoveredNode.id ||
-    //   d.target.id === hoveredNode.id
-    //     ? 4
-    //     : 1
-    // );
 }
 
 function reset() {
@@ -553,8 +541,8 @@ function reset() {
   label.attr("opacity", 1);
 
   link
-    .attr("stroke", "#999")
-    .attr("stroke-opacity", 0.5)
+    .attr("stroke", stroke_default_color)
+    .attr("stroke-opacity", stroke_default_opacity)
     .attr("stroke-width", d => d.weight * link_scale);
 }
 
@@ -585,51 +573,4 @@ function dragended(event, d) {
   d.fx = null;
   d.fy = null;
 }
-
-// debugger;
-
-//const moodColors = {
-  //warm: "#221e1e",
-  //fresh: "#4ecdc4",
-  //earthy: "#8d6e63",
-  //sweet: "#f7b267",
-  //bitter: "#6c5ce7"
-//};
-//
-//const nodes = [
-  //{id: "Garlic", mood: "earthy", compounds: ["sulfur", "umami", "pungent"]},
-  //{id: "Onion", mood: "earthy", compounds: ["sulfur", "sweet", "pungent"]},
-  //{id: "Tomato", mood: "fresh", compounds: ["acidic", "sweet", "umami"]},
-  //{id: "Basil", mood: "fresh", compounds: ["herbal", "sweet"]},
-  //{id: "Strawberry", mood: "sweet", compounds: ["sweet", "fruity"]},
-  //{id: "Chocolate", mood: "bitter", compounds: ["bitter", "sweet"]},
-  //{id: "Coffee", mood: "bitter", compounds: ["bitter", "roasted"]},
-  //{id: "Vanilla", mood: "sweet", compounds: ["sweet", "creamy"]},
-  //{id: "Lemon", mood: "fresh", compounds: ["acidic", "citrus"]},
-  //{id: "Orange", mood: "fresh", compounds: ["citrus", "sweet"]},
-  //{id: "Beef", mood: "earthy", compounds: ["umami", "fatty"]},
-  //{id: "Mushroom", mood: "earthy", compounds: ["umami", "earthy"]},
-  //{id: "Cheese", mood: "warm", compounds: ["fatty", "umami"]},
-  //{id: "Butter", mood: "warm", compounds: ["fatty", "creamy"]},
-  //{id: "Honey", mood: "sweet", compounds: ["sweet", "floral"]},
-  //{id: "Mint", mood: "fresh", compounds: ["herbal", "cool"]},
-  //{id: "Chili", mood: "warm", compounds: ["spicy", "pungent"]},
-  //{id: "Pepper", mood: "warm", compounds: ["spicy", "earthy"]},
-  //{id: "Carrot", mood: "sweet", compounds: ["sweet", "earthy"]},
-  //{id: "Apple", mood: "fresh", compounds: ["sweet", "fruity"]}
-//];
-//
-//// Create links
-//const links = [];
-//for (let i = 0; i < nodes.length; i++) {
-  //for (let j = i + 1; j < nodes.length; j++) {
-    //const shared = nodes[i].compounds.filter(c =>
-      //nodes[j].compounds.includes(c)
-    //);
-    //if (shared.length > 0) {
-      //links.push({ source: nodes[i].id, target: nodes[j].id });
-    //}
-  //}
-//}
-//
 })();
