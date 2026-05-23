@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      gap: 80px;
+      margin-top: 20px;
+    }
+
+    .list-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      font-size: 20px;
+      padding: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- LEFT LIST -->
+  <div class="list-block">
+    <div class="title">Health Sorted</div>
+    <ul id="listA"></ul>
+  </div>
+
+  <!-- RIGHT LIST -->
+  <div class="list-block">
+    <div class="title">Mood Sorted</div>
+    <ul id="listB"></ul>
+  </div>
+
+</div>
+
+<script src="graph.js"></script>
+
+</body>
+</html>
