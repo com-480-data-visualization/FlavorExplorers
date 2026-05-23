@@ -1,14 +1,14 @@
-// const leftData = ["Apple", "Banana", "Cherry"];
-// const rightData = ["Red", "Yellow", "Dark Red"];
+//data
+const healthSorted = ["breast milk", "wild pacific salmon fillet", "arugula spinach", "but avocado", "red swiss chard", "pouch wild caught pink salmon", "handfu spinach", "avocado mexico", "torn kale leaf", "broccoli spear", "halibut filet", "leaf collard green", "thai basil leaf picked stem", "cooled truroot organic sprouted green lentil", "organic flaxseed meal", "tomato lime juice cilantro", "shelled walnut", "dinosaur kale", "alaskan king crab leg", "sashimi grade salmon"]
+const moodSorted = ["breast milk", "wild pacific salmon fillet", "goya virgin olive oil", "unfiltered virgin olive oil", "beef liver", "arugula spinach", "but avocado", "red swiss chard", "pouch wild caught pink salmon", "handfu spinach", "avocado mexico", "torn kale leaf", "broccoli spear", "halibut filet", "leaf collard green", "thai basil leaf picked stem", "cooled truroot organic sprouted green lentil", "organic flaxseed meal", "tomato lime juice cilantro", "shelled walnut"]
 
+//config
 const color_normal = "black";
 const color_intersect = "blue";
 const color_highlight = "red";
 const opacity_deslected = 0.1;
 
-const healthSorted = ["breast milk", "wild pacific salmon fillet", "arugula spinach", "but avocado", "red swiss chard", "pouch wild caught pink salmon", "handfu spinach", "avocado mexico", "torn kale leaf", "broccoli spear", "halibut filet", "leaf collard green", "thai basil leaf picked stem", "cooled truroot organic sprouted green lentil", "organic flaxseed meal", "tomato lime juice cilantro", "shelled walnut", "dinosaur kale", "alaskan king crab leg", "sashimi grade salmon"]
-const moodSorted = ["breast milk", "wild pacific salmon fillet", "goya virgin olive oil", "unfiltered virgin olive oil", "beef liver", "arugula spinach", "but avocado", "red swiss chard", "pouch wild caught pink salmon", "handfu spinach", "avocado mexico", "torn kale leaf", "broccoli spear", "halibut filet", "leaf collard green", "thai basil leaf picked stem", "cooled truroot organic sprouted green lentil", "organic flaxseed meal", "tomato lime juice cilantro", "shelled walnut"]
-
+//text to color functions
 function healthColor(d) {
     if(moodSorted.includes(d)){
       return color_intersect;
@@ -23,8 +23,8 @@ function moodColor(d) {
     return color_normal;
 }
 
-// LEFT LIST
-const left = d3.select("#listA")
+//left list
+const left = d3.select("#list_left")
   .selectAll("li")
   .data(healthSorted)
   .enter()
@@ -33,8 +33,8 @@ const left = d3.select("#listA")
   .attr("data-index", (d, i) => i)
   .style("color", healthColor);
 
-// RIGHT LIST
-const right = d3.select("#listB")
+//right list
+const right = d3.select("#list_right")
   .selectAll("li")
   .data(moodSorted)
   .enter()
@@ -44,7 +44,7 @@ const right = d3.select("#listB")
   .style("color", moodColor);
 
 
-// HOVER INTERACTION
+//set hover events
 function register_hover(list, other_list, this_arr, other_arr, this_color, other_color){
   list.on("mouseover", function(event, d) {
       d3.select(this)
