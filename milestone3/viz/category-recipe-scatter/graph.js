@@ -267,78 +267,78 @@ English Muffins,0.17559523809523805,0.3351190476190476,"No-Knead English Muffin 
 Divinity,0.22166666666666665,0.25666666666666665,"Georgia Nuggets,Gelatin Divinity"
 `;
 
-// set the dimensions and margins of the graph
-const margin = {top: 80, right: 50, bottom: 50, left: 40},
-    width = window.innerWidth - margin.left - margin.right,
-    height = window.innerHeight - margin.top - margin.bottom;
+//read in data
+const data = d3.csvParse(csvdata.trim());
 
-const legend_width_ratio = 0.07;
-const legend_width = legend_width_ratio * width;
-const graph_width = (1 - legend_width_ratio) * width;
+//config
+const x_label_font_size = 15;
+const y_label_font_size = 15;
+const datapoint_radius = 5;
+const window_scale = 0.95;
 
-// append the svg object to the body of the page
+
+//prepare canvas
+const margin = {top: 80, right: 50, bottom: 50, left: 50},
+    width = window.innerWidth * window_scale - margin.left - margin.right,
+    height = window.innerHeight * window_scale - margin.top - margin.bottom;
+
 const svg = d3.select("#my_dataviz")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr("width", width)
+    .attr("height", height);
 
-//Read the data
-//d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv", function(data) {
+//color scale
+const color = d3.scaleOrdinal()
+  .domain(data.map(d => d.category))
+  .range(data.map((d, i) => d3.interpolateRdYlGn((i / data.length))));
 
-const data = d3.csvParse(csvdata.trim());
-
+//add x axis
 const x = d3.scaleLinear()
   .domain([d3.min(data.map(d => d.avg_mood)), d3.max(data.map(d => d.avg_mood))])
-  .range([ 0, width ]);
+  .range([ margin.left, width ]);
 
 const x_labels = Array(10).fill("");
 x_labels[0] = "better mood";
 x_labels[9] = "worse mood";
 
 const x_axis_scale = d3.scaleBand()
-  .range([ width, 0])
+  .range([ width, margin.left])
   .domain(x_labels)
   .padding(0.05);
 
 svg.append("g")
-  .style("font-size", 15)
+  .style("font-size", x_label_font_size)
   .attr("transform", "translate(0," + height + ")")
   .call(d3.axisBottom(x_axis_scale).tickSize(0))
   .select(".domain").remove()
 
-// Add Y axis
+//add y axis
 const y = d3.scaleLinear()
-  //.domain([0, 9])
   .domain([d3.min(data.map(d => d.avg_health)), d3.max(data.map(d => d.avg_health))])
-  .range([ height, 0]);
+  .range([ height, margin.top]);
 
 const y_labels = Array(10).fill("");
 y_labels[0] = "Unhealthier";
 y_labels[9] = "Healthier";
 
 const y_axis_scale = d3.scaleBand()
-  .range([ height, 0])
+  .range([ height, margin.top])
   .domain(y_labels)
   .padding(0.05);
 
 const y_axis = svg.append("g")
-  .style("font-size", 15)
+  .style("font-size", y_label_font_size)
   .call(d3.axisLeft(y_axis_scale).tickSize(0));
 
 y_axis.select(".domain").remove();
 y_axis.selectAll("text").attr("transform", "rotate(-90) translate(0, -20)");
 
 
-// Color scale: give me a specie name, I return a color
-const color = d3.scaleOrdinal()
-  // .domain(["setosa", "versicolor", "virginica" ])
-  // .range([ "#440154ff", "#21908dff", "#fde725ff"]);
-  .domain(data.map(d => d.category))
-  .range(data.map((d, i) => d3.interpolateRdYlGn((i / 266))));
-
+//tool tip helpers
 const tooltip = d3.select("#my_dataviz")
   .append("div")
   .style("opacity", 0)
@@ -349,10 +349,6 @@ const tooltip = d3.select("#my_dataviz")
   .style("border-radius", "5px")
   .style("padding", "10px");
 
-
-
-// A function that change this tooltip when the user hover a point.
-// Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
 const mouseover = function(d) {
   tooltip
     .style("opacity", 1);
@@ -363,18 +359,10 @@ const mousemove = function(event, d) {
 
   tooltip
     .html(`Category: ${d.category}<br>Sample Recipe: ${d.recipe_selection.split(",")[0]}`)
-    .style("left", (x + 90) + "px")
+    .style("left", x + "px")
     .style("top", y + "px");
 };
 
-// const mousemove = function(d) {
-//   tooltip
-//     .html("The exact value of<br>the Ground Living area is: ")
-//     .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
-//     .style("top", (d3.mouse(this)[1]) + "px")
-// };
-
-// A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
 const mouseleave = function(d) {
   tooltip
     .transition()
@@ -382,44 +370,16 @@ const mouseleave = function(d) {
     .style("opacity", 0)
 };
 
-
-// Add dots
+//add data
 svg.append('g')
   .selectAll("dot")
   .data(data)
   .enter()
   .append("circle")
-    .attr("cx", function (d) { return x(d.avg_mood); } )
-    .attr("cy", function (d) { return y(d.avg_health); } )
-    .attr("r", 5)
-    //.style("fill", function (d) { return color(d.Species) } )
+    .attr("cx", d => x(d.avg_mood))
+    .attr("cy", d => y(d.avg_health))
+    .attr("r", datapoint_radius)
     .style("fill", d => color(d.category))
-    // .style("fill", "red")
   .on("mouseover", mouseover )
   .on("mousemove", mousemove )
   .on("mouseleave", mouseleave )
-
-// const category_height = 25;
-// // Legend
-// const legend = svg.append("g")
-//   .attr("class", "legend")
-//   .attr("transform", `translate(${width - legend_width}, ${height - margin.bottom - categories.length * category_height})`);
-
-// categories.forEach((category, i) => {
-//   const row = legend.append("g")
-//     .attr("transform", `translate(0, ${i * category_height})`);
-
-//   row.append("rect")
-//     .attr("width", 14)
-//     .attr("height", 14)
-//     .attr("fill", color(category));
-
-//   row.append("text")
-//     .attr("x", 22)
-//     .attr("y", 12)
-//     .text(category);
-// });
-
-
-
-//})
