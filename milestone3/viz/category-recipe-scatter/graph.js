@@ -275,7 +275,7 @@ const x_label_font_size = 15;
 const y_label_font_size = 15;
 const datapoint_radius = 5;
 const window_scale = 0.95;
-
+const x_axis_space = 5;
 
 //prepare canvas
 const margin = {top: 80, right: 50, bottom: 50, left: 50},
@@ -287,9 +287,7 @@ const svg = d3.select("#my_dataviz")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    .attr("width", width)
-    .attr("height", height);
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 //color scale
 const color = d3.scaleOrdinal()
@@ -298,15 +296,15 @@ const color = d3.scaleOrdinal()
 
 //add x axis
 const x = d3.scaleLinear()
-  .domain([d3.min(data.map(d => d.avg_mood)), d3.max(data.map(d => d.avg_mood))])
-  .range([ margin.left, width ]);
+  .domain([d3.min(data.map(d => +d.avg_mood)), d3.max(data.map(d => +d.avg_mood))])
+  .range([ margin.left + datapoint_radius, width - datapoint_radius]);
 
 const x_labels = Array(10).fill("");
 x_labels[0] = "better mood";
 x_labels[9] = "worse mood";
 
 const x_axis_scale = d3.scaleBand()
-  .range([ width, margin.left])
+  .range([ width, 0])
   .domain(x_labels)
   .padding(0.05);
 
@@ -318,8 +316,8 @@ svg.append("g")
 
 //add y axis
 const y = d3.scaleLinear()
-  .domain([d3.min(data.map(d => d.avg_health)), d3.max(data.map(d => d.avg_health))])
-  .range([ height, margin.top]);
+  .domain([d3.min(data.map(d => +d.avg_health)), d3.max(data.map(d => +d.avg_health))])
+  .range([ height - datapoint_radius - x_axis_space, datapoint_radius]);
 
 const y_labels = Array(10).fill("");
 y_labels[0] = "Unhealthier";
