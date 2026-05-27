@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Recipe Builder</title>
+  <link rel="stylesheet" href="recipe-builder.css" />
+</head>
+<body>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <div id="app">
+    <div id="header">
+      <div id="title">Recipe Builder</div>
+      <div id="subtitle">Pick up to 6 ingredients, set how much of each, and see how healthy and mood-boosting your recipe is !</div>
+    </div>
+
+    <div id="main">
+      <!-- Left: ingredient picker -->
+      <div id="picker-panel">
+        <div id="search-row">
+          <input id="search-box" type="text" placeholder="Search ingredients…" autocomplete="off" />
+          <button id="clear-btn">Clear all</button>
+        </div>
+        <div id="category-tabs"></div>
+        <div id="ingredient-grid"></div>
+      </div>
+
+      <!-- Right: result panel -->
+      <div id="result-panel">
+        <div id="selected-header">
+          <span id="selected-count">0 / 6 ingredients selected</span>
+        </div>
+
+        <div id="scores-section">
+          <div class="score-block" id="health-block">
+            <div class="score-label">Health Score</div>
+            <div class="gauge-wrap">
+              <svg class="gauge-svg" id="health-gauge"></svg>
+            </div>
+            <div class="score-value" id="health-value">—</div>
+            <div class="score-sublabel" id="health-sublabel">Select ingredients to start</div>
+          </div>
+
+          <div class="score-block" id="mood-block">
+            <div class="score-label">Mood Score</div>
+            <div class="gauge-wrap">
+              <svg class="gauge-svg" id="mood-gauge"></svg>
+            </div>
+            <div class="score-value" id="mood-value">—</div>
+            <div class="score-sublabel" id="mood-sublabel">Select ingredients to start</div>
+          </div>
+        </div>
+
+        <div id="result-card">
+          <div id="result-emoji"></div>
+          <div id="result-text"></div>
+        </div>
+
+        <div id="breakdown-section">
+          <div id="breakdown-title">Ingredient breakdown</div>
+          <div id="breakdown-chart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="graph.js"></script>
+</body>
+</html>
