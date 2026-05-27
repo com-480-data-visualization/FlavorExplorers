@@ -1,0 +1,136 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #fafaf8;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+#chart-container {
+  max-width: 900px;
+  width: 100%;
+}
+
+#title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+}
+
+#subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.violin-path {
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.violin-path:hover {
+  opacity: 1;
+}
+
+.iqr-box {
+  fill: #2a2a2a;
+}
+
+.median-line {
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: square;
+}
+
+.trend-annotation {
+  font-size: 11px;
+  fill: #555;
+  font-style: italic;
+}
+
+.axis text {
+  font-size: 12px;
+  fill: #555;
+}
+
+.axis line, .axis path {
+  stroke: #ccc;
+}
+
+.group-label {
+  font-size: 13px;
+  font-weight: 600;
+  fill: #333;
+  text-anchor: middle;
+}
+
+.count-label {
+  font-size: 11px;
+  fill: #888;
+  text-anchor: middle;
+}
+
+.gridline {
+  stroke: #e5e5e0;
+  stroke-dasharray: 3,3;
+}
+
+.y-axis-title {
+  font-size: 12px;
+  fill: #666;
+}
+
+.tooltip-violin {
+  position: absolute;
+  background: rgba(30,30,30,0.88);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  pointer-events: none;
+  line-height: 1.6;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+#legend {
+  display: flex;
+  gap: 20px;
+  margin-top: 12px;
+  padding-left: 60px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #555;
+}
+
+.legend-line.median {
+  display: inline-block;
+  width: 22px;
+  height: 2.5px;
+  background: #fff;
+  border: 1px solid #888;
+}
+
+.legend-box.iqr {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: rgba(0,0,0,0.15);
+  border: 1px solid #999;
+  border-radius: 2px;
+}

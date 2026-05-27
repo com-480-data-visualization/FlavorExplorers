@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mood Score Distribution by Ingredient Health Group</title>
+  <link rel="stylesheet" href="mood-violin.css" />
+</head>
+<body>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <div id="chart-container">
+    <div id="title">Mood Score Distribution by Ingredient Health Group</div>
+    <div id="subtitle">Per-ingredient view: does a healthier ingredient also tend to be mood-boosting?</div>
+    <div id="my_dataviz"></div>
+    <div id="legend">
+      <div class="legend-item"><span class="legend-line median"></span>Median</div>
+      <div class="legend-item"><span class="legend-box iqr"></span>IQR (25–75%)</div>
+    </div>
+  </div>
+  <script src="graph.js"></script>
+</body>
+</html>
