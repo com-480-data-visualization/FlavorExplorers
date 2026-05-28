@@ -46,7 +46,7 @@ function initLeaderboard(ingr) {
   const PAD   = { t: 36, b: 16, inner: 24 }; // inner = gap between the two panels
 
   const panelW = LBL_W + BAR_W;
-  const W = panelW * 2 + PAD.inner;
+  const W = panelW * 2 + 2 * PAD.inner;
   const H = PAD.t + ROWS * ROW + PAD.b;
 
   // Clear and append SVG directly into the viz-card
