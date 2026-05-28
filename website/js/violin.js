@@ -13,6 +13,8 @@ const vTotalH  = 460;
 const vWidth   = vTotalW - vMargin.left - vMargin.right;
 const vHeight  = vTotalH - vMargin.top  - vMargin.bottom;
 
+d3.select("#viz-violin").html("");
+
 const vSvg = d3.select('#viz-violin')
   .append('svg')
     .attr('viewBox', `0 0 ${vTotalW} ${vTotalH}`)
