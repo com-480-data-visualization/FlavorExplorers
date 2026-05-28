@@ -1,7 +1,7 @@
 (function () {
   const targets = [
     { sel: '.stat-num.s1', end: 25000, fmt: v => Math.round(v / 1000) + 'k+' },
-    { sel: '.stat-num.s2', end: 1530,  fmt: v => Math.round(v).toLocaleString() },
+    { sel: '.stat-num.s2', end: 9840,  fmt: v => Math.round(v).toLocaleString() },
     { sel: '.stat-num.s3', end: 40,    fmt: v => Math.round(v) },
   ];
 
