@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Leaderboard test</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Inter', sans-serif; background: #F8F1E7; display: flex; justify-content: center; padding: 2rem; }
+  #lb { background: white; border-radius: 18px; padding: 1.2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.10); width: 560px; }
+  .tooltip { position: fixed; background: white; border: 1px solid #eee; border-radius: 8px; padding: 8px 12px; font-size: 12px; pointer-events: none; opacity: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.12); z-index: 999; }
+</style>
+</head>
+<body>
+<div id="lb"></div>
+<div class="tooltip" id="tip"></div>
+<script>
+// Hardcoded test data (subset of ingredients_scored.csv with ≥50 recipes)
+const topHealth = [
+  { name: "Kale",           health: 0.95, mood: 0.0,  count: 68 },
+  { name: "Broccoli",       health: 0.95, mood: 0.0,  count: 159 },
+  { name: "Rolled Oat",     health: 0.95, mood: 0.0,  count: 384 },
+  { name: "Flax Seed",      health: 0.95, mood: 0.0,  count: 69 },
+  { name: "Chia Seed",      health: 0.95, mood: 0.0,  count: 71 },
+  { name: "Pumpkin",        health: 0.95, mood: 0.0,  count: 91 },
+  { name: "Green Bean",     health: 0.90, mood: 0.30, count: 184 },
+  { name: "Quick Oat",      health: 0.90, mood: 0.0,  count: 192 },
+  { name: "Green Chile",    health: 0.90, mood: 0.0,  count: 160 },
+  { name: "Salmon Fillet",  health: 0.95, mood: 0.0,  count: 58 },
+  { name: "Brown Rice",     health: 0.85, mood: 2.0,  count: 72 },
+  { name: "Pea",            health: 0.80, mood: 2.0,  count: 182 },
+];
+
+const topMood = [
+  { name: "Turkey",         mood: 2.0, health: 0.90, count: 344 },
+  { name: "Wheat Flour",    mood: 2.0, health: 0.50, count: 375 },
+  { name: "Buttermilk",     mood: 2.0, health: 0.70, count: 490 },
+  { name: "Brown Rice",     mood: 2.0, health: 0.85, count: 72 },
+  { name: "Pea",            mood: 2.0, health: 0.80, count: 182 },
+  { name: "Russet Potato",  mood: 2.0, health: 0.70, count: 190 },
+  { name: "Pork Sausage",   mood: 2.0, health:-0.70, count: 75 },
+  { name: "Sharp Cheddar",  mood: 2.0, health: 0.50, count: 298 },
+  { name: "Elbow Macaroni", mood: 2.0, health:-0.30, count: 153 },
+  { name: "Egg Noodle",     mood: 2.0, health:-0.30, count: 153 },
+  { name: "Beef Stock",     mood: 2.0, health: 0.70, count: 65 },
+  { name: "Wheat Germ",     mood: 2.0, health: 0.90, count: 67 },
+];
+
+const healthNames = new Set(topHealth.map(d => d.name));
+const moodNames   = new Set(topMood.map(d => d.name));
+
+const ROW = 28, ROWS = 12;
+const BAR_W = 120, LBL_W = 115;
+const PAD = { t: 40, b: 30, inner: 28 };
+const panelW = LBL_W + BAR_W;
+const W = panelW * 2 + PAD.inner;
+const H = PAD.t + ROWS * ROW + PAD.b;
+
+const svg = d3.select('#lb').append('svg')
+  .attr('viewBox', `0 0 ${W} ${H}`)
+  .attr('width', '100%')
+  .style('display', 'block');
+
+const tip = d3.select('#tip');
+
+// Titles
+[
+  { x: LBL_W + BAR_W / 2, label: 'Health Score', color: '#2A9D5C' },
+  { x: panelW + PAD.inner + LBL_W + BAR_W / 2, label: 'Mood Score', color: '#E63946' }
+].forEach(t => {
+  svg.append('text').attr('x', t.x).attr('y', 20)
+    .attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 700)
+    .attr('fill', t.color).attr('font-family', 'Inter, sans-serif').text(t.label);
+  svg.append('line').attr('x1', t.x - 40).attr('x2', t.x + 40)
+    .attr('y1', 24).attr('y2', 24).attr('stroke', t.color).attr('stroke-width', 1.5).attr('opacity', 0.35);
+});
+
+const maxH = d3.max(topHealth, d => d.health);
+const maxM = d3.max(topMood, d => d.mood);
+const xH   = d3.scaleLinear().domain([0, maxH]).range([0, BAR_W]);
+const xM   = d3.scaleLinear().domain([0, maxM]).range([0, BAR_W]);
+
+function drawPanel(data, offset, maxX, xScale, mainColor, otherNames, isHealth) {
+  const g = svg.append('g').attr('transform', `translate(${offset}, ${PAD.t})`);
+
+  data.forEach((d, i) => {
+    const y = i * ROW;
+    const inBoth = isHealth ? moodNames.has(d.name) : healthNames.has(d.name);
+    const color  = inBoth ? '#2563EB' : mainColor;
+    const row    = g.append('g').attr('class', `lb-row-${isHealth ? 'h' : 'm'}`).attr('data-i', i)
+                    .style('cursor', 'pointer');
+
+    // Background track
+    row.append('rect').attr('x', LBL_W).attr('y', y + 5)
+      .attr('width', BAR_W - 4).attr('height', ROW - 12)
+      .attr('fill', '#f5f5f5').attr('rx', 3);
+
+    // Bar fill
+    row.append('rect').attr('class', 'bar')
+      .attr('x', LBL_W).attr('y', y + 5)
+      .attr('width', xScale(isHealth ? d.health : d.mood)).attr('height', ROW - 12)
+      .attr('fill', color).attr('rx', 3).attr('opacity', 0.82);
+
+    // Score label
+    const score = isHealth ? d.health : d.mood;
+    row.append('text').attr('x', LBL_W + xScale(score) + 4).attr('y', y + ROW / 2 + 1)
+      .attr('dominant-baseline', 'middle').attr('font-size', 7.5).attr('fill', '#bbb')
+      .attr('font-family', 'Inter, sans-serif').text(score.toFixed(2));
+
+    // Rank
+    row.append('text').attr('x', 4).attr('y', y + ROW / 2 + 1)
+      .attr('dominant-baseline', 'middle').attr('font-size', 7.5).attr('fill', '#ccc')
+      .attr('font-family', 'Inter, sans-serif').text(i + 1);
+
+    // Name
+    row.append('text').attr('x', LBL_W - 8).attr('y', y + ROW / 2 + 1)
+      .attr('text-anchor', 'end').attr('dominant-baseline', 'middle')
+      .attr('font-size', 9.5).attr('fill', inBoth ? '#2563EB' : '#333')
+      .attr('font-weight', inBoth ? 600 : 400)
+      .attr('font-family', 'Inter, sans-serif').text(d.name);
+  });
+
+  return g;
+}
+
+const gH = drawPanel(topHealth, 0, maxH, xH, '#2A9D5C', moodNames, true);
+const gM = drawPanel(topMood, panelW + PAD.inner, maxM, xM, '#E63946', healthNames, false);
+
+// Hover
+function addHover(g, data, otherG, otherData, isHealth) {
+  const allH = gH.selectAll('[class^="lb-row"]');
+  const allM = gM.selectAll('[class^="lb-row"]');
+
+  data.forEach((d, i) => {
+    const sel = g.select(`[data-i="${i}"]`);
+    sel.on('mouseover', function() {
+        allH.style('opacity', 0.15); allM.style('opacity', 0.15);
+        g.select(`[data-i="${i}"]`).style('opacity', 1);
+        const otherIdx = otherData.findIndex(o => o.name === d.name);
+        if (otherIdx >= 0) otherG.select(`[data-i="${otherIdx}"]`).style('opacity', 1);
+        tip.html(`<strong>${d.name}</strong><br>Health: ${d.health.toFixed(2)} · Mood: ${d.mood.toFixed(1)}`)
+          .style('opacity', 1);
+      })
+      .on('mousemove', e => tip.style('left', (e.clientX + 14) + 'px').style('top', (e.clientY - 36) + 'px'))
+      .on('mouseleave', () => { allH.style('opacity', 1); allM.style('opacity', 1); tip.style('opacity', 0); });
+  });
+}
+addHover(gH, topHealth, gM, topMood, true);
+addHover(gM, topMood, gH, topHealth, false);
+
+// Legend
+const legY = H - 12;
+[
+  { color: '#2563EB', label: 'appears in both lists' },
+  { color: '#2A9D5C', label: 'health only' },
+  { color: '#E63946', label: 'mood only' },
+].forEach((l, i) => {
+  const lx = 8 + i * 140;
+  svg.append('rect').attr('x', lx).attr('y', legY - 7).attr('width', 10).attr('height', 7)
+    .attr('fill', l.color).attr('rx', 2).attr('opacity', 0.8);
+  svg.append('text').attr('x', lx + 13).attr('y', legY)
+    .attr('font-size', 8).attr('fill', '#888').attr('font-family', 'Inter, sans-serif').text(l.label);
+});
+</script>
+</body>
+</html>

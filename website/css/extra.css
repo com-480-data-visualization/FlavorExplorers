@@ -1,0 +1,466 @@
+/* ── Leaderboard card ─────────────────────────────────────────── */
+.viz-card--leaderboard {
+  aspect-ratio: unset;
+  min-height: unset;
+  height: 420px;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 1rem;
+  overflow: visible;
+}
+
+.lb-container {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+.lb-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.lb-title {
+  font-family: "Playfair Display", serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.01em;
+}
+
+.lb-block ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lb-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  padding: 0.28rem 0.3rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.12s, opacity 0.2s, font-weight 0.1s;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+.lb-item:hover { background: rgba(0,0,0,0.04); }
+
+.lb-rank {
+  font-family: "Playfair Display", serif;
+  font-size: 0.7rem;
+  color: var(--muted);
+  min-width: 1.4rem;
+  text-align: right;
+  font-style: italic;
+}
+
+.lb-name {
+  text-transform: capitalize;
+}
+
+/* ── Scroll progress bar ─────────────────────────────────────── */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(to right, var(--healthy), var(--gold), var(--comfort));
+  z-index: 999;
+  pointer-events: none;
+  transition: width 0.08s linear;
+}
+
+/* ── Intro overlay ───────────────────────────────────────────── */
+#intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--deep);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  cursor: pointer;
+  transition: opacity 0.75s ease;
+}
+#intro-overlay.intro-out { opacity: 0; pointer-events: none; }
+
+.intro-icon {
+  font-size: 3rem;
+  animation: intro-bob 1.4s ease-in-out infinite;
+}
+@keyframes intro-bob {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-8px); }
+}
+
+.intro-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  font-style: italic;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  animation: intro-fade-up 0.7s ease 0.5s forwards;
+}
+.intro-title em { color: var(--comfort); font-style: normal; }
+
+.intro-sub {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  opacity: 0;
+  animation: intro-fade-up 0.7s ease 0.9s forwards;
+}
+
+.intro-hint {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.18);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  position: absolute;
+  bottom: 2rem;
+  opacity: 0;
+  animation: intro-fade-up 0.7s ease 1.6s forwards;
+}
+
+@keyframes intro-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Pull-quote blocks ───────────────────────────────────────── */
+.pull-quote {
+  background: var(--deep);
+  padding: 5rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.pull-quote::before {
+  content: "\201C";
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Playfair Display", serif;
+  font-size: 14rem;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+}
+.pull-quote blockquote {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.35rem, 3vw, 2.4rem);
+  font-style: italic;
+  font-weight: 700;
+  color: white;
+  max-width: 24ch;
+  margin: 0 auto;
+  line-height: 1.35;
+}
+.pull-quote blockquote em { color: var(--gold); font-style: normal; }
+.pull-quote cite {
+  display: block;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  margin-top: 1.6rem;
+  font-style: normal;
+}
+
+/* ── Quiz section ────────────────────────────────────────────── */
+.quiz-section {
+  padding: 7rem 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.quiz-intro .quiz-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 0.3rem 0.9rem;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+.quiz-intro h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+  line-height: 1.1;
+  margin-bottom: 0.7rem;
+}
+.quiz-intro p {
+  font-size: 0.97rem;
+  color: #4A4540;
+  line-height: 1.8;
+}
+
+.quiz-card {
+  background: white;
+  border-radius: 18px;
+  padding: 2rem 1.8rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04), 0 12px 40px rgba(0,0,0,0.09);
+  border: 1px solid rgba(0,0,0,0.04);
+  min-height: 320px;
+}
+
+.qz-progress {
+  height: 3px;
+  background: #EEE8DF;
+  border-radius: 2px;
+  margin-bottom: 1.4rem;
+  overflow: hidden;
+}
+.qz-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--healthy), var(--gold));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.qz-step {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.6rem;
+}
+.qz-question {
+  font-family: "Playfair Display", serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 1.2rem;
+  color: var(--body-txt);
+}
+.qz-opts { display: flex; flex-direction: column; gap: 0.5rem; }
+.qz-opt {
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #E8E0D4;
+  border-radius: 10px;
+  background: white;
+  font-family: inherit;
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--body-txt);
+}
+.qz-opt:hover  { border-color: var(--accent); background: #FFF8F2; }
+.qz-opt.chosen { border-color: var(--accent); background: #FFF3E8; }
+
+.qz-result { text-align: center; }
+.qz-emoji  { font-size: 3rem; margin-bottom: 0.6rem; }
+.qz-type   { font-family: "Playfair Display", serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 0.8rem; }
+.qz-desc   { font-size: 0.88rem; color: #5A5048; line-height: 1.75; margin-bottom: 1rem; }
+.qz-retry  {
+  margin-top: 1rem;
+  padding: 0.45rem 1.2rem;
+  border: 1.5px solid #DDD5C8;
+  border-radius: 20px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+.qz-retry:hover { border-color: var(--body-txt); color: var(--body-txt); }
+
+/* ── Square viz card (ingredients heatmap) ───────────────────── */
+.viz-card--square {
+  aspect-ratio: 1 / 1;
+}
+
+.viz-card--square svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Scrollytelling section ──────────────────────────────────── */
+.scrolly-section {
+  padding: 0;
+  max-width: 1100px;
+  margin: 0 auto 6rem;
+}
+
+.scrolly-header {
+  text-align: center;
+  padding: 6rem 2rem 4rem;
+}
+.scrolly-header .section-num {
+  display: block;
+  margin: 0 auto 1rem;
+}
+.scrolly-header h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.15;
+  margin-bottom: 0.8rem;
+}
+.scrolly-header p {
+  font-size: 1rem;
+  color: #5A5048;
+  max-width: 52ch;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+.scrolly-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: start;
+}
+
+/* Sticky graphic panel */
+.scrolly__graphic {
+  position: sticky;
+  top: 80px;
+  height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+#scrolly-viz {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.1);
+  overflow: hidden;
+  line-height: 0;
+}
+
+/* Scrollable text column */
+.scrolly__text {
+  padding: 0 2rem;
+}
+
+.scrolly__step {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  padding: 3rem 0;
+}
+
+.step-card {
+  background: white;
+  border-radius: 14px;
+  padding: 1.8rem 2rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.04);
+  opacity: 0.4;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.scrolly__step.is-active .step-card {
+  opacity: 1;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07), 0 16px 48px rgba(0,0,0,0.13);
+}
+
+.step-num {
+  font-family: "Playfair Display", serif;
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+.step-card h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.55rem;
+  color: var(--body-txt);
+}
+
+.step-card p {
+  font-size: 0.9rem;
+  color: #5A5048;
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* spacers at top and bottom of text column */
+.scrolly-spacer {
+  height: 30vh;
+}
+
+@media (max-width: 768px) {
+  .scrolly-body {
+    grid-template-columns: 1fr;
+  }
+  .scrolly__graphic {
+    position: relative;
+    top: 0;
+    height: 55vw;
+    min-height: 280px;
+  }
+  .scrolly__step {
+    min-height: auto;
+    padding: 1.5rem 0;
+  }
+}
+
+/* ── Recipe Builder (game) section ──────────────────────────── */
+.game-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem 5rem;
+}
+
+.game-header {
+  max-width: 58ch;
+  margin-bottom: 2rem;
+}
+
+.game-header h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+  line-height: 1.15;
+  margin-bottom: 0.7rem;
+  margin-top: 0.8rem;
+}
+
+.game-header p {
+  font-size: 0.97rem;
+  color: #4A4540;
+  line-height: 1.8;
+}
+
+.game-frame {
+  width: 100%;
+  height: 720px;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.10);
+  display: block;
+  background: white;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .game-frame { height: 960px; }
+}
