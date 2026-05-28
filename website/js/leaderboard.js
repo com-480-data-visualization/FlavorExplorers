@@ -205,7 +205,7 @@ function initLeaderboard(ingr) {
             otherRows.filter((_, j) => j === otherIdx).style('opacity', 1);
           }
           // Tooltip
-          tip.html(`<strong style="text-transform:capitalize">${name}</strong><br>Health: ${names[i].health.toFixed(2)} · Mood: ${names[i].mood.toFixed(1)}`)
+          tip.html(`<strong style="text-transform:capitalize">${name}</strong><br>Health: ${names[i].health.toFixed(2)} · Mood: ${(names[i].mood - 1).toFixed(1)}`)
             .style('opacity', 1);
         })
         .on('mousemove', e => tip
