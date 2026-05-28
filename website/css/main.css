@@ -523,6 +523,35 @@ h1, h2, h3 {
 }
 .section-finale #ingredient-network text { fill: rgba(255,255,255,0.6); }
 
+/* ── Violin chart ── */
+#viz-violin { aspect-ratio: 860 / 460; }
+#viz-violin svg { width: 100%; height: auto; }
+.v-gridline { stroke: #e5e5e0; stroke-dasharray: 3,3; }
+.v-axis text { font-size: 12px; fill: #555; }
+.v-axis line, .v-axis path { stroke: #ccc; }
+.v-axis-title { font-size: 12px; fill: #666; }
+.v-violin-path { opacity: 0.85; transition: opacity 0.2s; }
+.v-violin-path:hover { opacity: 1; }
+.v-iqr-box { fill: #2a2a2a; }
+.v-median-line { stroke: #fff; stroke-width: 2; stroke-linecap: square; }
+.v-trend-annotation { font-size: 11px; fill: #555; font-style: italic; }
+.v-group-label { font-size: 13px; font-weight: 600; text-anchor: middle; }
+.v-count-label { font-size: 11px; fill: #888; text-anchor: middle; }
+.tooltip-violin {
+    position: absolute;
+    background: rgba(30,30,30,0.88);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    pointer-events: none;
+    line-height: 1.6;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 50;
+}
+
 /* ── Footer ── */
 footer {
     background: var(--deep);
