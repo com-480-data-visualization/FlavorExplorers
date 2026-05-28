@@ -230,8 +230,7 @@ Doughnuts,-0.01951101808244665,0.007808302808302829,"Easy Funnel Cakes,Banana Fr
     });
 
   // Colour legend (health axis)
-  const lgW = 70;
-  const lg = svg.append("g").attr("transform", `translate(${W - m.right - lgW - 2}, ${m.top})`);
+  const lg = svg.append("g").attr("transform", `translate(${W / 6}, ${m.top})`);
   const defs = svg.append("defs");
   const grad = defs.append("linearGradient").attr("id", "cat-sc-grad").attr("x1","0%").attr("x2","0%").attr("y1","100%").attr("y2","0%");
   [0, 0.25, 0.5, 0.75, 1].forEach(t => {
