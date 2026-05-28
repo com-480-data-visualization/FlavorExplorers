@@ -41,8 +41,8 @@ function initLeaderboard(ingr) {
 
   // ── Layout ──────────────────────────────────────────────────────────────────
   const ROW = 28, ROWS = 12;
-  const BAR_W = 110;   // max bar length (px in viewBox)
-  const LBL_W = 110;   // name label area
+  const BAR_W = 120;   // max bar length (px in viewBox)
+  const LBL_W = 120;   // name label area
   const PAD   = { t: 36, b: 16, inner: 24 }; // inner = gap between the two panels
 
   const panelW = LBL_W + BAR_W;
@@ -153,7 +153,7 @@ function initLeaderboard(ingr) {
     row.append('text')
       .attr('x', LBL_W + xM(d.mood) + 4).attr('y', y + ROW / 2 + 1)
       .attr('dominant-baseline', 'middle').attr('font-size', 7.5).attr('fill', '#999')
-      .text(d.mood.toFixed(1));
+      .text((d.mood - 1).toFixed(1));
 
     // Rank
     row.append('text')
