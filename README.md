@@ -52,8 +52,17 @@ Our sensorial baseline builds on the 2011 *Nature Scientific Reports* paper by A
 
 ## Milestone 3 (29th May, 5pm)
 
-**80% of the final grade**
-*(To be completed)*
+### Website
+
+Our websites code is in the `website` folder. To visit the website, start a webserver `python3 -m http.server` within the `website` directory and navigate to `http://0.0.0.0:8000` in your browser.
+
+### Screencast
+
+The screencast can be downloaded at <https://drive.google.com/file/d/1Tcpm7EfmM3vLcPgrJtsCQXWHdlFYpoMl/view?usp=sharing>.
+
+### Process Book
+
+The process book is at `process-book.pdf`.
 
 ---
 
